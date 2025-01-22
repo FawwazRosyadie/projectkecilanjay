@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weightlifting Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 0;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      margin-top: 5px;
+      margin-bottom: 10px;
+      padding: 5px;
+      width: 100%;
+      max-width: 300px;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #results {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Weightlifting Calculator</h1>
+  <form id="calculatorForm">
+    <label for="pr">Enter your lift PR (kg):</label>
+    <input type="number" id="pr" step="0.1" required>
+    
+    <label for="load">Enter your load (kg):</label>
+    <input type="number" id="load" step="0.1" required>
+    
+    <label for="sn">Enter your Snatch PR (kg):</label>
+    <input type="number" id="sn" step="0.1" required>
+    
+    <label for="cj">Enter your Clean & Jerk PR (kg):</label>
+    <input type="number" id="cj" step="0.1" required>
+    
+    <label for="bodyWeight">Enter your body weight (kg):</label>
+    <input type="number" id="bodyWeight" step="0.1" required>
+    
+    <button type="submit">Calculate</button>
+  </form>
+  
+  <div id="results"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("calculatorForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const pr = parseFloat(document.getElementById("pr").value);
+        const load = parseFloat(document.getElementById("load").value);
+        const sn = parseFloat(document.getElementById("sn").value);
+        const cj = parseFloat(document.getElementById("cj").value);
+        const bodyWeight = parseFloat(document.getElementById("bodyWeight").value);
+
+        fetch("http://127.0.0.1:5000/calculate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ pr, load, sn, cj, bodyWeight }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            let results = `<strong>Results:</strong><br>`;
+            results += `Lift Percentage: ${data.trainPct} %<br>`;
+            results += `Total Lift: ${data.totalLift} kg<br>`;
+            results += `Sinclair Total: ${data.sinclair}<br>`;
+
+            if (typeof data.plateNeeded === "string") {
+              results += `Plates Needed: ${data.plateNeeded}<br>`;
+            } else {
+              results += `Plates Needed:<br>`;
+              for (const [plate, count] of Object.entries(data.plateNeeded)) {
+                results += `${plate} kg x ${count}<br>`;
+              }
+            }
+
+            document.getElementById("results").innerHTML = results;
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            document.getElementById("results").innerHTML = "An error occurred. Please try again.";
+          });
+      });
+    });
+  </script>
+</body>
+</html>
