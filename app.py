@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from weightlifting import calculate_load_percentage, calculate_total, calculate_sinclair, plate_load, print_plates
+from weightligting import calculate_load_percentage, calculate_total, calculate_sinclair, plate_load, print_plates
 
 app = Flask(__name__)
 
