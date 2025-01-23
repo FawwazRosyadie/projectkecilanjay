@@ -54,4 +54,4 @@ def plate_load(load, BAR):
 def print_plates(plates):
     for weight, count in plates.items():
         print(f"{weight} kg x {count * 2}")
-    
+
