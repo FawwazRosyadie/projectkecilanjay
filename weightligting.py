@@ -23,7 +23,7 @@ def calculate_total(sn, cj) -> float:
 
 # This funtion calculates the sinclair total
 def calculate_sinclair(body_weight, b=193.609, A=0.722762521):
-    if body_weight <= total_lift:
+    if body_weight <= calculate_total():
         X = math.log10(body_weight / b)
         SC = 10 ** (A * (X ** 2))
     else:
