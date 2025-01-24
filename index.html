@@ -81,13 +81,20 @@
           },
           body: JSON.stringify({ pr, load, sn, cj, bodyWeight }),
         })
-          .then((response) => response.json())
+          .then((response) => {
+            if (!response.ok) {
+              return response.json().then((error) => {
+                throw new Error(error.error || "Unknown error occurred");
+              });
+            }
+            return response.json();
+          })
           .then((data) => {
             let results = `<strong>Results:</strong><br>`;
             results += `Lift Percentage: ${data.trainPct} %<br>`;
             results += `Total Lift: ${data.totalLift} kg<br>`;
             results += `Sinclair Total: ${data.sinclair}<br>`;
-
+        
             if (typeof data.plateNeeded === "string") {
               results += `Plates Needed: ${data.plateNeeded}<br>`;
             } else {
@@ -96,13 +103,14 @@
                 results += `${plate} kg x ${count}<br>`;
               }
             }
-
+        
             document.getElementById("results").innerHTML = results;
           })
           .catch((error) => {
             console.error("Error:", error);
-            document.getElementById("results").innerHTML = "An error occurred. Please try again.";
+            document.getElementById("results").innerHTML = `An error occurred: ${error.message}`;
           });
+        
       });
     });
   </script>
