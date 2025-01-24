@@ -1,14 +1,12 @@
 import math
 
 BAR = 20.0
-plates = {1.25, 2.5, 5, 10, 15, 20}
+plates = [1.25, 2.5, 5, 10, 15, 20]
 
 # This funtion calculates the load percentage of an exercise relative to a PR
 def calculate_load_percentage(pr, load):
-    if pr == 0 or pr <= 0:
-        return "Error: Your PR cannot be zero or negative."
-    elif pr is None:
-        exit()
+    if pr is None or pr <= 0:
+        return "Error: PR must be a positive number."
     load_percentage = load / pr * 100.0
     
     return load_percentage
@@ -16,18 +14,17 @@ def calculate_load_percentage(pr, load):
 # This funtion calculates the total of snatch and clean & jerk
 def calculate_total(sn, cj) -> float:
     
-    if sn <= 0 or cj <= 0:
-        return "Error: Your lift cannot be negative"
+    if sn is None or cj is None or sn <= 0 or cj <= 0:
+        return "Error: Snatch and Clean & Jerk must be positive numbers."
     
     return (sn + cj)
 
 # This funtion calculates the sinclair total
 def calculate_sinclair(body_weight, b=193.609, A=0.722762521):
-    if body_weight <= calculate_total():
-        X = math.log10(body_weight / b)
-        SC = 10 ** (A * (X ** 2))
-    else:
-        SC = 1
+    if body_weight <= 0:
+        return "Error: Body weight must be positive."
+    X = math.log10(body_weight / b)
+    SC = 10 ** (A * (X ** 2))
     return SC
 
 # This funtion informs the user what plates should be used for the lift
