@@ -44,19 +44,19 @@
   <h1>Weightlifting Calculator</h1>
   <form id="calculatorForm">
     <label for="pr">Enter your lift PR (kg):</label>
-    <input type="number" id="pr" step="0.1" required>
+    <input type="number" id="pr" step="0.1" required min="1">
     
     <label for="load">Enter your load (kg):</label>
-    <input type="number" id="load" step="0.1" required>
+    <input type="number" id="load" step="0.1" required min="1">
     
     <label for="sn">Enter your Snatch PR (kg):</label>
-    <input type="number" id="sn" step="0.1" required>
+    <input type="number" id="sn" step="0.1" required min="1">
     
     <label for="cj">Enter your Clean & Jerk PR (kg):</label>
-    <input type="number" id="cj" step="0.1" required>
+    <input type="number" id="cj" step="0.1" required min="1">
     
     <label for="bodyWeight">Enter your body weight (kg):</label>
-    <input type="number" id="bodyWeight" step="0.1" required>
+    <input type="number" id="bodyWeight" step="0.1" required min="1">
     
     <button type="submit">Calculate</button>
   </form>
