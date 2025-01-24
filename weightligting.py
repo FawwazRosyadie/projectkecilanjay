@@ -22,7 +22,7 @@ def calculate_total(sn, cj) -> float:
 # This funtion calculates the sinclair total
 def calculate_sinclair(body_weight, b=193.609, A=0.722762521):
     if body_weight <= 0:
-        return "Error: Body weight must be positive."
+        return "Error: Body weight cannot be zero or negative."
     X = math.log10(body_weight / b)
     SC = 10 ** (A * (X ** 2))
     return SC
